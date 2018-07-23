@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.paletter.easy.web.server.config.GlobalConfig;
+import com.paletter.easy.web.server.support.MethodMappingScanner;
+import com.paletter.easy.web.server.support.ScanResult;
+import com.paletter.easy.web.server.util.WebUtils;
+
 public class Response {
 
 	public static String CONTENT_TYPE_TEXTHTML = "text/html";
@@ -32,7 +37,7 @@ public class Response {
 		this.socketChannel = socketChannel;
 	}
 
-	public void response() throws IOException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+	public void response() throws Throwable {
 		
 		String reqUri = request.getHeader(Request.HEADER_URI);
 		
@@ -129,26 +134,29 @@ public class Response {
 		fis.close();
 	}
 	
-	private void writeJson(String reqUri) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException
+	private void writeJson(String reqUri) throws Throwable {
+		
+		if (GlobalConfig.REQUEST_MAPPING_TYPE.isCodePath()) {
+			writeJsonForCodePath(reqUri);
+		}
+		
+		if (GlobalConfig.REQUEST_MAPPING_TYPE.isAnnotation()) {
+			writeJsonForAnnotation();
+		}
+	}
+	
+	private void writeJsonForCodePath(String reqUri) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException
 		, InvocationTargetException, InstantiationException, IOException {
 
 		String method = request.getHeader(Request.HEADER_METHOD);
 		if(method.equals("GET")) {
 			
-			String uriParam = reqUri.split("\\?")[1];
-			String[] uriParams = uriParam.split("&");
-			Map<String, String> paramsMap = new TreeMap<String, String>();
+			Map<String, String> paramsMap = WebUtils.getRequestParams(reqUri);
 			List<String> methodParamValues = new ArrayList<String>();
-			for(String param : uriParams) {
-				try {
-					String key = param.split("=")[0];
-					String value = param.split("=")[1];
-					paramsMap.put(key, value);
-					if(!key.equals("service") && !key.equals("method")) methodParamValues.add(value);
-				} catch (Exception e) {
-					continue;
-				}
-			}
+			paramsMap.entrySet().forEach(entry -> {
+				if(!entry.getKey().equals("service") && !entry.getKey().equals("method")) 
+					methodParamValues.add(entry.getValue());
+			});
 			
 			String serviceParam = paramsMap.get("service");
 			String methodParam = paramsMap.get("method");
@@ -167,6 +175,26 @@ public class Response {
 					
 					println(result.toString());
 				}
+			}
+		}
+	}
+	
+	private void writeJsonForAnnotation() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+
+		String reqMethod = request.getHeader(Request.HEADER_METHOD);
+		if(reqMethod.equals("GET")) {
+			
+			String uri = request.getHeader(Request.HEADER_URI);
+			String path = uri.split("\\?")[0].split("\\.")[0];
+			
+			ScanResult scanResult = MethodMappingScanner.getMethod(path);
+			if (scanResult != null) {
+				
+				Object result = scanResult.getMethod().invoke(scanResult.getInstance());
+				
+				writeHeader(ResponseStatusEnum.OK, CONTENT_TYPE_APPLICATIONJSON, result.toString().length());
+				
+				println(result.toString());
 			}
 		}
 	}

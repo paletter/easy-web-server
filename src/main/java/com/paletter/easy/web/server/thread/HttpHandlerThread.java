@@ -26,7 +26,7 @@ public class HttpHandlerThread extends Thread {
 				resp.response();
 			}
 			
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
