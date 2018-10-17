@@ -1,6 +1,7 @@
 package test;
 
 import java.io.File;
+import java.util.PriorityQueue;
 
 public class TmpMain {
 
@@ -10,5 +11,6 @@ public class TmpMain {
 		
 		System.out.println(s.split("&")[0]);
 		System.out.println(s.split("&")[1]);
+		
 	}
 }
