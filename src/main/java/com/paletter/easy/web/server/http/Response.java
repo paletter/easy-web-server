@@ -1,6 +1,6 @@
 package com.paletter.easy.web.server.http;
 
-import com.paletter.easy.web.server.config.AppConfig;
+import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.constants.AppConstants;
 import com.paletter.easy.web.server.utils.StringUtils;
 
@@ -27,7 +27,7 @@ public class Response {
 
 	public void response() throws Exception {
 		
-		if (AppConfig.isFileServer) {
+		if (EWSConfig.isFileServer) {
 			
 			responseDownloadHandler.doResponse();
 			
@@ -39,7 +39,7 @@ public class Response {
 				
 			} else if(isServiceRequest()) {
 				
-				if (AppConfig.isAnnotationMappingService) {
+				if (EWSConfig.isAnnotationMappingService) {
 					responseMappingJsonHandler.doResponse();
 				} else {
 					responseServiceMethodJsonHandler.doResponse();

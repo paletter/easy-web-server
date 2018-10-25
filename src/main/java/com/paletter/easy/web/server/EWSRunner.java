@@ -6,35 +6,42 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 
-import com.paletter.easy.web.server.config.AppConfig;
+import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.support.WebMapHelper;
 import com.paletter.easy.web.server.thread.BIOAcceptThread;
 import com.paletter.easy.web.server.thread.NIOAcceptThread;
+import com.paletter.easy.web.server.utils.StringUtils;
 
-public class Runner {
+public class EWSRunner {
 
-	public static void main(String[] args) {
+	public static void run() {
 
 		try {
 			
-			int port = 8080;
+			int port = EWSConfig.port;
 			
-			if (AppConfig.isAnnotationMappingService) {
-				WebMapHelper.scanner(AppConfig.webMappingScannerPath);
+			if (EWSConfig.isAnnotationMappingService) {
+				
+				if (StringUtils.isEmpty(EWSConfig.webMappingScannerPath)) {
+					System.out.println("EWSConfig.webMappingScannerPath null.");
+					return;
+				}
+				
+				WebMapHelper.scanner(EWSConfig.webMappingScannerPath);
 			}
 			
 			// BIO
-			if (AppConfig.ioMode == 1) {
+			if (EWSConfig.ioMode == 1) {
 				
 				ServerSocket server = new ServerSocket(port);
 				System.out.println("Server startup on " + port);
 				
-				BIOAcceptThread accept = new BIOAcceptThread(server, AppConfig.httpHandlerThreadSize);
+				BIOAcceptThread accept = new BIOAcceptThread(server, EWSConfig.httpHandlerThreadSize);
 				accept.start();
 			}
 			
 			// NIO
-			if (AppConfig.ioMode == 2) {
+			if (EWSConfig.ioMode == 2) {
 				
 				ServerSocketChannel server = ServerSocketChannel.open();
 				server.socket().bind(new InetSocketAddress(port));
@@ -44,7 +51,7 @@ public class Runner {
 				Selector selector = Selector.open();
 				server.register(selector, SelectionKey.OP_ACCEPT);
 				
-				NIOAcceptThread accpetThread = new NIOAcceptThread(selector, AppConfig.httpHandlerThreadSize);
+				NIOAcceptThread accpetThread = new NIOAcceptThread(selector, EWSConfig.httpHandlerThreadSize);
 				accpetThread.setName("SelectorThread");
 				accpetThread.start();
 			}

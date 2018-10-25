@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import com.paletter.easy.web.server.config.AppConfig;
+import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.constants.AppConstants;
 
 public class ResponseWebResourceHandler extends ResponseAbstractHandler {
@@ -36,7 +36,7 @@ public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 	
 	private void writeWebResource(String uri, String contentType) throws IOException {
 
-		URL url = getClass().getClassLoader().getResource(AppConfig.htmlPath + uri.substring(1));
+		URL url = getClass().getClassLoader().getResource(EWSConfig.htmlPath + uri.substring(1));
 		if (url == null) {
 			writeNotFoundStatus();
 			return;
