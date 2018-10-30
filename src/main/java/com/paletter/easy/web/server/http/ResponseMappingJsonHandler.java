@@ -9,7 +9,7 @@ import com.paletter.easy.web.server.support.WebMapHelper.WebMapper;
 
 public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 
-	public ResponseMappingJsonHandler(ResponsePrinter printer, Request request) {
+	public ResponseMappingJsonHandler(ResponseOutput printer, Request request) {
 		super(printer, request);
 	}
 

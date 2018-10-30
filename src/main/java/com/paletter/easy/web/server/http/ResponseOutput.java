@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.paletter.easy.web.server.constants.AppConstants;
 import com.paletter.easy.web.server.utils.StringUtils;
 
-public abstract class ResponsePrinter {
+public abstract class ResponseOutput {
 
 	public void writeHeader(ResponseStatusEnum status, String contentType, long length) throws IOException {
 		println("HTTP/1.1 " + status.getStatus() + " " + status.getMsg() + "");

@@ -7,14 +7,14 @@ import com.paletter.easy.web.server.utils.StringUtils;
 public class Response {
 
 	private Request request;
-	private ResponsePrinter printer;
+	private ResponseOutput printer;
 	
 	private ResponseServiceMethodJsonHandler responseServiceMethodJsonHandler;
 	private ResponseMappingJsonHandler responseMappingJsonHandler;
 	private ResponseWebResourceHandler responseWebResourceHandler;
 	private ResponseDownloadHandler responseDownloadHandler;
 	
-	public Response(Request request, ResponsePrinter printer) {
+	public Response(Request request, ResponseOutput printer) {
 		super();
 		this.request = request;
 		this.printer = printer;

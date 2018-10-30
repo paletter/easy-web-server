@@ -1,17 +1,16 @@
 package com.paletter.easy.web.server.http;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
-import com.paletter.iotool.IOWriterTool;
+public class ResponseOutputNIO extends ResponseOutput {
 
-public class ResponsePrinterBIO extends ResponsePrinter {
-
-	private Socket socket;
+	private SocketChannel socketChannel;
 	
-	public ResponsePrinterBIO(Socket socket) {
+	public ResponseOutputNIO(SocketChannel socketChannel) {
 		super();
-		this.socket = socket;
+		this.socketChannel = socketChannel;
 	}
 
 	@Override
@@ -19,20 +18,19 @@ public class ResponsePrinterBIO extends ResponsePrinter {
 		str += "\r\n";
 		write(str);
 	}
-	
+
 	@Override
 	public void write(String str) throws IOException {
-		IOWriterTool.writeContent(socket.getOutputStream(), str);
+		socketChannel.write(ByteBuffer.wrap(str.getBytes()));
 	}
 
 	@Override
 	public void write(byte[] b) throws IOException {
-		socket.getOutputStream().write(b);
-		socket.getOutputStream().flush();
+		socketChannel.write(ByteBuffer.wrap(b));
 	}
 
 	@Override
 	public void close() throws IOException {
-		socket.close();
+		socketChannel.close();
 	}
 }

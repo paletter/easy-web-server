@@ -6,7 +6,7 @@ import java.net.SocketException;
 import com.paletter.easy.web.server.http.Request;
 import com.paletter.easy.web.server.http.RequestBIO;
 import com.paletter.easy.web.server.http.Response;
-import com.paletter.easy.web.server.http.ResponsePrinterBIO;
+import com.paletter.easy.web.server.http.ResponseOutputBIO;
 
 public class BIOHttpHandlerThread extends Thread {
 
@@ -24,7 +24,7 @@ public class BIOHttpHandlerThread extends Thread {
 			request.parse();
 			
 			if(request.isParseSucc()) {
-				Response resp = new Response(request, new ResponsePrinterBIO(socket));
+				Response resp = new Response(request, new ResponseOutputBIO(socket));
 				resp.response();
 			}
 		

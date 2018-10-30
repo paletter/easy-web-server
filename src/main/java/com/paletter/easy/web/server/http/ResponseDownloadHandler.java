@@ -8,7 +8,7 @@ import com.paletter.easy.web.server.constants.AppConstants;
 
 public class ResponseDownloadHandler extends ResponseAbstractHandler {
 
-	public ResponseDownloadHandler(ResponsePrinter printer, Request request) {
+	public ResponseDownloadHandler(ResponseOutput printer, Request request) {
 		super(printer, request);
 	}
 

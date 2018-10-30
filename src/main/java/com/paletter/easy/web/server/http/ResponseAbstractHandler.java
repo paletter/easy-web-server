@@ -11,9 +11,9 @@ import com.paletter.easy.web.server.utils.StringUtils;
 public abstract class ResponseAbstractHandler {
 
 	protected Request request;
-	protected ResponsePrinter printer;
+	protected ResponseOutput printer;
 	
-	public ResponseAbstractHandler(ResponsePrinter printer, Request request) {
+	public ResponseAbstractHandler(ResponseOutput printer, Request request) {
 		this.printer = printer;
 		this.request = request;
 	}

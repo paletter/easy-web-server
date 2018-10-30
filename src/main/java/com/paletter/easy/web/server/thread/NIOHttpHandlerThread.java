@@ -5,7 +5,7 @@ import java.nio.channels.SocketChannel;
 import com.paletter.easy.web.server.http.Request;
 import com.paletter.easy.web.server.http.RequestNIO;
 import com.paletter.easy.web.server.http.Response;
-import com.paletter.easy.web.server.http.ResponsePrinterNIO;
+import com.paletter.easy.web.server.http.ResponseOutputNIO;
 
 public class NIOHttpHandlerThread extends Thread {
 
@@ -23,7 +23,7 @@ public class NIOHttpHandlerThread extends Thread {
 			request.parse();
 			
 			if(request.isParseSucc()) {
-				Response resp = new Response(request, new ResponsePrinterNIO(socketChannel));
+				Response resp = new Response(request, new ResponseOutputNIO(socketChannel));
 				resp.response();
 			}
 			

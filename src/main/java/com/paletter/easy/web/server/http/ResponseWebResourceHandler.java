@@ -10,7 +10,7 @@ import com.paletter.easy.web.server.constants.AppConstants;
 
 public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 
-	public ResponseWebResourceHandler(ResponsePrinter printer, Request request) {
+	public ResponseWebResourceHandler(ResponseOutput printer, Request request) {
 		super(printer, request);
 	}
 
@@ -36,7 +36,7 @@ public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 	
 	private void writeWebResource(String uri, String contentType) throws IOException {
 
-		URL url = getClass().getClassLoader().getResource(EWSConfig.htmlPath + uri.substring(1));
+		URL url = getClass().getClassLoader().getResource(EWSConfig.resourcesPath + uri.substring(1));
 		if (url == null) {
 			writeNotFoundStatus();
 			return;

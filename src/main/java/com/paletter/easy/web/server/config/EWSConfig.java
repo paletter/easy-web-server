@@ -7,7 +7,7 @@ public class EWSConfig {
 //	public static String webMappingScannerPath = "com.paletter.easy.web.server.test";
 	public static String webMappingScannerPath = "com.paletter.easy.web.server.test";
 //	public static String htmlPath = "static/";
-	public static String htmlPath = "static/";
+	public static String resourcesPath = "static/";
 	
 	/**
 	 * <pre>

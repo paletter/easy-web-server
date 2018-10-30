@@ -10,7 +10,7 @@ import com.paletter.easy.web.server.constants.AppConstants;
 
 public class ResponseServiceMethodJsonHandler extends ResponseAbstractHandler {
 
-	public ResponseServiceMethodJsonHandler(ResponsePrinter printer, Request request) {
+	public ResponseServiceMethodJsonHandler(ResponseOutput printer, Request request) {
 		super(printer, request);
 	}
 
