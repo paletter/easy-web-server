@@ -6,11 +6,11 @@
   	<version>0.0.1-SNAPSHOT</version>
   	
   	<dependencies>
-  		<dependency>
-	      	<groupId>org.json</groupId>
-	      	<artifactId>json</artifactId>
-	      	<version>20140107</version>
-	    </dependency>
+<!--   		<dependency> -->
+<!-- 	      	<groupId>org.json</groupId> -->
+<!-- 	      	<artifactId>json</artifactId> -->
+<!-- 	      	<version>20140107</version> -->
+<!-- 	    </dependency> -->
   		<dependency>
 	      	<groupId>com.paletter.support</groupId>
 	      	<artifactId>iotool</artifactId>
@@ -25,6 +25,11 @@
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
 		    <version>26.0-jre</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.51</version>
 		</dependency>
   	</dependencies>
   	

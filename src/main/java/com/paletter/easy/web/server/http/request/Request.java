@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.request;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.utils.StringUtils;
 
 public abstract class Request {
 	
 	protected Map<String, String> headerMap = new HashMap<String, String>();
 	protected String body = "";
 	protected boolean isParseSucc = false;
+	private RequestParameter requestParam = new RequestParameter();
 	
 	public abstract boolean parse() throws Exception;
 	
@@ -22,9 +24,6 @@ public abstract class Request {
 			String[] headerArr = reqContent.split("\r\n");
 			
 			headerMap.put(AppConstants.RequestHeader.HEADER_METHOD, headerArr[0].split(" ")[0]);
-			
-			System.out.println(headerArr[0]);
-			
 			headerMap.put(AppConstants.RequestHeader.HEADER_URI, headerArr[0].split(" ")[1]);
 			headerMap.put(AppConstants.RequestHeader.HEADER_PROTOCOL, headerArr[0].split(" ")[2].replace("\r\n", ""));
 				
@@ -42,16 +41,17 @@ public abstract class Request {
 			
 			isParseSucc = true;
 		} catch (Exception e) {
+			System.out.println("request parseHeader error." + e.getMessage());
 			isParseSucc = false;
 		}
 	}
 	
-	protected String parseHeaderArr(String[] headerArr, String type) {
+	private String parseHeaderArr(String[] headerArr, String type) {
 		
 		for(int i = 1; i < headerArr.length; i ++) {
 			String headerLine = headerArr[i];
 			if(headerLine.startsWith(type)) {
-				return headerLine.split(" ")[1].replace("\r\n", "");
+				return headerLine.replaceAll(type + ": ", "").replace("\r\n", "");
 			}
 		}
 		
@@ -59,10 +59,44 @@ public abstract class Request {
 	}
 	
 	protected void parseBody(String reqContent) {
+		try {
+			
+			String[] contentArr = reqContent.split("\r\n");
+			if (contentArr.length > 2 && contentArr[contentArr.length - 2].length() == 0) {
+				body = contentArr[contentArr.length - 1];
+			}
+			
+			isParseSucc = true;
+		} catch (Exception e) {
+			isParseSucc = false;
+			System.out.println("request parseBody error." + e.getMessage());
+		}
+	}
+	
+	protected void parseParameters() {
 		
-		String[] contentArr = reqContent.split("\r\n");
-		if (contentArr.length > 2 && contentArr[contentArr.length - 2].length() == 0) {
-			body = contentArr[contentArr.length - 1];
+		// URI params
+		URI uri = getURI();
+		if (StringUtils.isNotEmpty(uri.getQuery())) {
+			String[] uriParams = uri.getQuery().split("&");
+			for(String param : uriParams) {
+				requestParam.addGetMethodParam(param.split("=")[0], param.split("=")[1]);
+			}
+		}
+		
+		// body param
+		String body = getBody();
+		if (StringUtils.isNotEmpty(body)) {
+			if (body.startsWith("{") && body.endsWith("}")) {
+				// json
+				requestParam.setJsonBody(body);
+			} else {
+				// form
+				String[] uriParams = body.split("&");
+				for(String param : uriParams) {
+					requestParam.addPostMethodParam(param.split("=")[0], param.split("=")[1]);
+				}
+			}
 		}
 	}
 	
@@ -90,4 +124,9 @@ public abstract class Request {
 		}
 		return uri;
 	}
+
+	public RequestParameter getRequestParam() {
+		return requestParam;
+	}
+	
 }

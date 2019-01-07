@@ -1,10 +1,13 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response.handler;
 
 import java.io.File;
 import java.io.FileInputStream;
 
 import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 
 public class ResponseDownloadHandler extends ResponseAbstractHandler {
 
@@ -18,11 +21,11 @@ public class ResponseDownloadHandler extends ResponseAbstractHandler {
 		File file = new File(EWSConfig.downloadFilePath + request.getURI().getPath());
 
 		if(!file.exists()) {
-			writeNotFoundStatus();
+			printer.writeNotFoundStatus();
 			return;
 		}
 		
-		writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_OCTET_STREAM, file.length());
+		printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_OCTET_STREAM, file.length());
 		
 		FileInputStream fis = new FileInputStream(file);
 		byte[] b = new byte[1024];

@@ -3,10 +3,10 @@ package com.paletter.easy.web.server.thread;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.paletter.easy.web.server.http.Request;
-import com.paletter.easy.web.server.http.RequestBIO;
-import com.paletter.easy.web.server.http.Response;
-import com.paletter.easy.web.server.http.ResponseOutputBIO;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.request.RequestBIO;
+import com.paletter.easy.web.server.http.response.Response;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutputBIO;
 
 public class BIOHttpHandlerThread extends Thread {
 

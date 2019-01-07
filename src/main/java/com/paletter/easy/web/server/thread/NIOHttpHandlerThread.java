@@ -2,10 +2,10 @@ package com.paletter.easy.web.server.thread;
 
 import java.nio.channels.SocketChannel;
 
-import com.paletter.easy.web.server.http.Request;
-import com.paletter.easy.web.server.http.RequestNIO;
-import com.paletter.easy.web.server.http.Response;
-import com.paletter.easy.web.server.http.ResponseOutputNIO;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.request.RequestNIO;
+import com.paletter.easy.web.server.http.response.Response;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
 
 public class NIOHttpHandlerThread extends Thread {
 

@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response.writer;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,6 +19,11 @@ public class ResponseOutputBIO extends ResponseOutput {
 		str += "\r\n";
 		write(str);
 	}
+
+	@Override
+	public void print(String str) throws IOException {
+		write(str);
+	}
 	
 	@Override
 	public void write(String str) throws IOException {
@@ -35,4 +40,5 @@ public class ResponseOutputBIO extends ResponseOutput {
 	public void close() throws IOException {
 		socket.close();
 	}
+
 }

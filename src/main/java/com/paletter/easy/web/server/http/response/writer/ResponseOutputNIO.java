@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response.writer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -16,6 +16,11 @@ public class ResponseOutputNIO extends ResponseOutput {
 	@Override
 	public void println(String str) throws IOException {
 		str += "\r\n";
+		write(str);
+	}
+
+	@Override
+	public void print(String str) throws IOException {
 		write(str);
 	}
 

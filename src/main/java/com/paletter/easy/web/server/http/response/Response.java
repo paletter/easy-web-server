@@ -1,7 +1,13 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response;
 
 import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.response.handler.ResponseDownloadHandler;
+import com.paletter.easy.web.server.http.response.handler.ResponseMappingJsonHandler;
+import com.paletter.easy.web.server.http.response.handler.ResponseServiceMethodJsonHandler;
+import com.paletter.easy.web.server.http.response.handler.ResponseWebResourceHandler;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 import com.paletter.easy.web.server.utils.StringUtils;
 
 public class Response {
@@ -60,9 +66,9 @@ public class Response {
 		String contentType = request.getHeader(AppConstants.RequestHeader.HEADER_CONTENT_TYPE);
 		return !isResourceRequest() && 
 				(StringUtils.isEmpty(contentType) 
-						|| contentType.equals(AppConstants.ContentType.APPLICATION_JSON)
-						|| contentType.equals(AppConstants.ContentType.APPLICATION_XML)
-						|| contentType.equals(AppConstants.ContentType.APPLICATION_FORM));
+						|| contentType.contains(AppConstants.ContentType.APPLICATION_JSON)
+						|| contentType.contains(AppConstants.ContentType.APPLICATION_XML)
+						|| contentType.contains(AppConstants.ContentType.APPLICATION_FORM));
 	}
 	
 }

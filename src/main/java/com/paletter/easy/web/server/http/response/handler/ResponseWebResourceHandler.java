@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response.handler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +7,9 @@ import java.net.URL;
 
 import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 
 public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 
@@ -38,18 +41,18 @@ public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 
 		URL url = getClass().getClassLoader().getResource(EWSConfig.resourcesPath + uri.substring(1));
 		if (url == null) {
-			writeNotFoundStatus();
+			printer.writeNotFoundStatus();
 			return;
 		}
 		
 		File file = new File(url.getPath());
 		
 		if(!file.exists()) {
-			writeNotFoundStatus();
+			printer.writeNotFoundStatus();
 			return;
 		}
 		
-		writeHeader(ResponseStatusEnum.OK, contentType, file.length());
+		printer.writeHeader(ResponseStatusEnum.OK, contentType, file.length());
 		
 		FileInputStream fis = new FileInputStream(file);
 		byte[] b = new byte[1024];

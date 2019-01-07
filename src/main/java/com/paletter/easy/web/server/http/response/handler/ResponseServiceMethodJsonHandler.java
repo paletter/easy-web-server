@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.response.handler;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.http.request.Request;
+import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 
 public class ResponseServiceMethodJsonHandler extends ResponseAbstractHandler {
 
@@ -48,9 +51,11 @@ public class ResponseServiceMethodJsonHandler extends ResponseAbstractHandler {
 							m.invoke(serviceClass.newInstance(), methodParamValues.toArray()) 
 							: m.invoke(serviceClass.newInstance());
 					
-					writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON, result.toString().length());
+					String respStr = convertToJSONResult(result);
+							
+					printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON, respStr.length());
 					
-					println(result.toString());
+					printer.print(respStr);
 				}
 			}
 		}

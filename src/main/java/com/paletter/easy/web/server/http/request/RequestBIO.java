@@ -1,7 +1,8 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.request;
 
 import java.net.Socket;
 
+import com.paletter.easy.web.server.utils.StringUtils;
 import com.paletter.iotool.IOReadTool;
 
 public class RequestBIO extends Request {
@@ -16,12 +17,13 @@ public class RequestBIO extends Request {
 	public boolean parse() throws Exception {
 		
 		String reqContent = IOReadTool.readContent(socket.getInputStream());
-		
-		System.out.println("# Request Content: " + reqContent);
-		
-		parseHeader(reqContent);
-		parseBody(reqContent);
-		
+		if (StringUtils.isNotEmpty(reqContent)) {
+			System.out.println("# Request Content: " + reqContent);
+			
+			parseHeader(reqContent);
+			parseBody(reqContent);
+			parseParameters();
+		}
 		return isParseSucc;
 	}
 }

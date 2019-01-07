@@ -1,4 +1,4 @@
-package com.paletter.easy.web.server.http;
+package com.paletter.easy.web.server.http.request;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -37,6 +37,7 @@ public class RequestNIO extends Request {
 		
 		parseHeader(reqContent);
 		parseBody(reqContent);
+		parseParameters();
 		
 		return isParseSucc;
 	}

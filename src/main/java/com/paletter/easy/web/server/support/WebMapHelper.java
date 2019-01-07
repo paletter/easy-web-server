@@ -1,7 +1,6 @@
 package com.paletter.easy.web.server.support;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Enumeration;
@@ -36,13 +35,20 @@ public class WebMapHelper {
 							String classPath = file.getPath().substring(subIndex).replace("\\", ".");
 							classPath = classPath.replace(".class", "");
 							
-							Class clazz = Class.forName(classPath);
-							Object instance = clazz.newInstance();
-							for (Method m : clazz.getMethods()) {
-								if (m.isAnnotationPresent(WebMapping.class)) {
-									WebMapper webMapper = new WebMapper(instance, m);
-									webMapperFactory.put(m.getAnnotation(WebMapping.class).value(), webMapper);
+							try {
+								Class clazz = Class.forName(classPath);
+								Object instance = clazz.newInstance();
+								for (Method m : clazz.getMethods()) {
+									if (m.isAnnotationPresent(WebMapping.class)) {
+										
+										WebMapping wm = m.getAnnotation(WebMapping.class);
+										
+										WebMapper webMapper = new WebMapper(instance, m, wm);
+										webMapperFactory.put(wm.value(), webMapper);
+									}
 								}
+							} catch (Exception e) {
+								System.out.println("Sacanner " + classPath + " error.");
 							}
 						}
 					}
@@ -56,37 +62,5 @@ public class WebMapHelper {
 	
 	public static WebMapper getMapper(String uri) {
 		return webMapperFactory.get(uri);
-	}
-	
-	public static class WebMapper {
-
-		private Object instance;
-		private Method method;
-
-		public WebMapper(Object instance, Method method) {
-			this.instance = instance;
-			this.method = method;
-		}
-		
-		public Object invoke(Object[] params) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-			return method.invoke(instance, params);
-		}
-
-		public Object getInstance() {
-			return instance;
-		}
-
-		public void setInstance(Object instance) {
-			this.instance = instance;
-		}
-
-		public Method getMethod() {
-			return method;
-		}
-
-		public void setMethod(Method method) {
-			this.method = method;
-		}
-		
 	}
 }
