@@ -92,6 +92,9 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 					}
 				}
 				
+			} else if(method.equals("OPTIONS")) {
+				printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON);
+				printer.print("{}");
 			}
 		}
 	}
