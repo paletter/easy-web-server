@@ -16,14 +16,14 @@ public class RequestParameter {
 	public void addGetMethodParam(String name, String value) {
 		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(value)) return;
 		
-		if (getMethodParams == null) getMethodParams = Maps.newHashMap();
+		if (getMethodParams == null) getMethodParams = Maps.newLinkedHashMap();
 		getMethodParams.put(name, value);
 	}
 	
 	public void addPostMethodParam(String name, String value) {
 		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(value)) return;
 		
-		if (postMethodParams == null) postMethodParams = Maps.newHashMap();
+		if (postMethodParams == null) postMethodParams = Maps.newLinkedHashMap();
 		postMethodParams.put(name, value);
 	}
 	
