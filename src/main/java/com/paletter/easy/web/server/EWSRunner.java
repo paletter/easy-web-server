@@ -10,6 +10,7 @@ import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.support.WebMapHelper;
 import com.paletter.easy.web.server.thread.BIOAcceptThread;
 import com.paletter.easy.web.server.thread.NIOAcceptThread;
+import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.easy.web.server.utils.StringUtils;
 
 public class EWSRunner {
@@ -23,7 +24,7 @@ public class EWSRunner {
 			if (EWSConfig.isAnnotationMappingService) {
 				
 				if (StringUtils.isEmpty(EWSConfig.webMappingScannerPath)) {
-					System.out.println("EWSConfig.webMappingScannerPath null.");
+					LogUtil.printDebug("EWSConfig.webMappingScannerPath null.");
 					return;
 				}
 				
@@ -34,7 +35,7 @@ public class EWSRunner {
 			if (EWSConfig.ioMode == 1) {
 				
 				ServerSocket server = new ServerSocket(port);
-				System.out.println("Server startup on " + port);
+				LogUtil.print("Server startup on " + port);
 				
 				BIOAcceptThread accept = new BIOAcceptThread(server, EWSConfig.httpHandlerThreadSize);
 				accept.start();
@@ -46,7 +47,7 @@ public class EWSRunner {
 				ServerSocketChannel server = ServerSocketChannel.open();
 				server.socket().bind(new InetSocketAddress(port));
 				server.configureBlocking(false);
-				System.out.println("Server startup on " + port);
+				LogUtil.print("Server startup on " + port);
 				
 				Selector selector = Selector.open();
 				server.register(selector, SelectionKey.OP_ACCEPT);
@@ -55,9 +56,11 @@ public class EWSRunner {
 				accpetThread.setName("SelectorThread");
 				accpetThread.start();
 			}
+
+			LogUtil.setLevel(EWSConfig.logLevel);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error("", e);
 		}
 	}
 }

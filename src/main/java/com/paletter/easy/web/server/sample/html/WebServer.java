@@ -3,6 +3,8 @@ package com.paletter.easy.web.server.sample.html;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.paletter.easy.web.server.utils.LogUtil;
+
 public class WebServer {
 
 	public static void main(String[] args) throws Exception {
@@ -11,7 +13,7 @@ public class WebServer {
 		
 		Socket s = ss.accept();
 		
-		System.out.println("Accpet:" + s);
+		LogUtil.printDebug("Accpet:" + s);
 		
 		RequestSample r = new RequestSample(s);
 		r.parse();

@@ -7,6 +7,8 @@ import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.paletter.easy.web.server.utils.LogUtil;
+
 public class BIOAcceptThread extends Thread {
 
 	private boolean isRun;
@@ -36,8 +38,7 @@ public class BIOAcceptThread extends Thread {
 		
 		} catch (Exception e) {
 			if(!(e instanceof SocketException)) {
-				System.out.println("Server error.");
-				e.printStackTrace();
+				LogUtil.error("", e);
 			}
 		}
 	}
@@ -46,11 +47,11 @@ public class BIOAcceptThread extends Thread {
 		
 		try {
 			
-			System.out.println("Server Interrupt");
+			LogUtil.printDebug("Server Interrupt");
 			isRun = false;
 			ss.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtil.error("", e);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import com.paletter.easy.web.server.http.request.Request;
 import com.paletter.easy.web.server.http.request.RequestNIO;
 import com.paletter.easy.web.server.http.response.Response;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
+import com.paletter.easy.web.server.utils.LogUtil;
 
 public class NIOHttpHandlerThread extends Thread {
 
@@ -28,7 +29,7 @@ public class NIOHttpHandlerThread extends Thread {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error("NIOHttpHandlerThread error.", e);
 		}
 	}
 }

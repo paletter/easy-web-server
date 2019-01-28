@@ -7,6 +7,7 @@ import com.paletter.easy.web.server.http.request.Request;
 import com.paletter.easy.web.server.http.request.RequestBIO;
 import com.paletter.easy.web.server.http.response.Response;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutputBIO;
+import com.paletter.easy.web.server.utils.LogUtil;
 
 public class BIOHttpHandlerThread extends Thread {
 
@@ -30,8 +31,7 @@ public class BIOHttpHandlerThread extends Thread {
 		
 		} catch (Exception e) {
 			if(!(e instanceof SocketException)) {
-				System.out.println("Server error.");
-				e.printStackTrace();
+				LogUtil.error("", e);
 			}
 		}
 	}

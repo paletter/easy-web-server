@@ -10,6 +10,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.paletter.easy.web.server.annotation.WebMapping;
 import com.paletter.easy.web.server.utils.FileUtils;
+import com.paletter.easy.web.server.utils.LogUtil;
 
 public class WebMapHelper {
 
@@ -48,7 +49,7 @@ public class WebMapHelper {
 									}
 								}
 							} catch (Exception e) {
-								System.out.println("Sacanner " + classPath + " error.");
+								LogUtil.printDebug("Sacanner " + classPath + " error.");
 							}
 						}
 					}
@@ -56,7 +57,7 @@ public class WebMapHelper {
 			}
 			
 		} catch (Throwable e) {
-			e.printStackTrace();
+			LogUtil.error("", e);
 		}
 	}
 	

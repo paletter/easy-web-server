@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import com.paletter.easy.web.server.utils.LogUtil;
+
 public class RequestNIO extends Request {
 	
 	private SocketChannel channel;
@@ -33,7 +35,7 @@ public class RequestNIO extends Request {
 		
 		String reqContent = baos.toString();
 		
-		System.out.println("# Request Content: " + reqContent);
+		LogUtil.printDebug("# Request Content: " + reqContent);
 		
 		parseHeader(reqContent);
 		parseBody(reqContent);

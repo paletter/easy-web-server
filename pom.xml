@@ -17,11 +17,6 @@
     </repositories>
   	
   	<dependencies>
-<!--   		<dependency> -->
-<!-- 	      	<groupId>org.json</groupId> -->
-<!-- 	      	<artifactId>json</artifactId> -->
-<!-- 	      	<version>20140107</version> -->
-<!-- 	    </dependency> -->
   		<dependency>
 	      	<groupId>com.paletter.support</groupId>
 	      	<artifactId>iotool</artifactId>
@@ -42,6 +37,12 @@
 		    <artifactId>fastjson</artifactId>
 		    <version>1.2.51</version>
 		</dependency>
+		<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>provided</scope>
+        </dependency>
   	</dependencies>
   	
 	<build>

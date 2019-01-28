@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.paletter.easy.web.server.utils.LogUtil;
+
 public class NIOAcceptThread extends Thread {
 
 	private Selector selector;
@@ -43,7 +45,7 @@ public class NIOAcceptThread extends Thread {
 							ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
 							SocketChannel channel = ssc.accept();
 							if(channel == null) continue;
-							System.out.println("Accpet: " + channel);
+							LogUtil.printDebug("Accpet: " + channel);
 							acceptCnt ++;
 							
 							channel.configureBlocking(false);
@@ -56,7 +58,7 @@ public class NIOAcceptThread extends Thread {
 							
 							SocketChannel sc = (SocketChannel) key.channel();
 							NIOHttpHandlerThread httpHandlerThread = new NIOHttpHandlerThread(sc);
-							System.out.println("# HttpHandlerThread-" + (acceptCnt));
+							LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
 							httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
 							httpHandlerThreadPool.execute(httpHandlerThread);
 						}
@@ -65,7 +67,7 @@ public class NIOAcceptThread extends Thread {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error("", e);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.iotool.IOReadTool;
 
 public class RequestSample {
@@ -33,7 +34,7 @@ public class RequestSample {
 	public void parse() throws Exception {
 		
 		String reqContent = IOReadTool.readContent(socket.getInputStream());
-		System.out.println(reqContent);
+		LogUtil.printDebug(reqContent);
 		
 		parseHeader(reqContent);
 	}

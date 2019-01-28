@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.easy.web.server.utils.StringUtils;
 
 public abstract class Request {
@@ -37,11 +38,11 @@ public abstract class Request {
 			headerMap.put(AppConstants.RequestHeader.HEADER_ACCEPT_LANGUAGE, parseHeaderArr(headerArr, "Accept-Language"));
 			headerMap.put(AppConstants.RequestHeader.HEADER_CONTENT_TYPE, parseHeaderArr(headerArr, "Content-Type"));
 			
-			System.out.println("# ContentType: " + parseHeaderArr(headerArr, "Content-Type"));
+			LogUtil.printDebug("# ContentType: " + parseHeaderArr(headerArr, "Content-Type"));
 			
 			isParseSucc = true;
 		} catch (Exception e) {
-			System.out.println("request parseHeader error." + e.getMessage());
+			LogUtil.printDebug("request parseHeader error." + e.getMessage());
 			isParseSucc = false;
 		}
 	}
@@ -69,7 +70,7 @@ public abstract class Request {
 			isParseSucc = true;
 		} catch (Exception e) {
 			isParseSucc = false;
-			System.out.println("request parseBody error." + e.getMessage());
+			LogUtil.printDebug("request parseBody error." + e.getMessage());
 		}
 	}
 	
@@ -120,7 +121,7 @@ public abstract class Request {
 		try {
 			uri = new URI(reqUri);
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			LogUtil.error("Request.getURI() error.", e);
 		}
 		return uri;
 	}
