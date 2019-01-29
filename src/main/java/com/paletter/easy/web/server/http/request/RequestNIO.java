@@ -16,6 +16,8 @@ public class RequestNIO extends Request {
 	}
 
 	public boolean parse() throws Exception {
+
+		if (channel == null || !channel.isConnected()) return false;
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int bufferLenght = 1024;

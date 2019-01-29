@@ -34,33 +34,41 @@ public class NIOAcceptThread extends Thread {
 					
 					while(ite.hasNext()) {
 						
-						SelectionKey key = ite.next();
-						
-						if(key.isAcceptable()) {
-
-							// Accept
+						try {
+								
+							SelectionKey key = ite.next();
 							
-							ite.remove();
+							if (!key.isValid()) continue;
 							
-							ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-							SocketChannel channel = ssc.accept();
-							if(channel == null) continue;
-							LogUtil.printDebug("Accpet: " + channel);
-							acceptCnt ++;
+							if (key.isAcceptable()) {
+	
+								// Accept
+								
+								ite.remove();
+								
+								ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+								SocketChannel channel = ssc.accept();
+								if(channel == null) continue;
+								LogUtil.printDebug("Accpet: " + channel);
+								acceptCnt ++;
+								
+								channel.configureBlocking(false);
+								channel.register(selector, SelectionKey.OP_READ);
+							}
 							
-							channel.configureBlocking(false);
-							channel.register(selector, SelectionKey.OP_READ);
-						}
-						
-						if(key.isReadable()) {
+							if(key.isReadable()) {
+								
+								// Readable
+								
+								SocketChannel sc = (SocketChannel) key.channel();
+								NIOHttpHandlerThread httpHandlerThread = new NIOHttpHandlerThread(sc);
+								LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
+								httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
+								httpHandlerThreadPool.execute(httpHandlerThread);
+							}
 							
-							// Readable
-							
-							SocketChannel sc = (SocketChannel) key.channel();
-							NIOHttpHandlerThread httpHandlerThread = new NIOHttpHandlerThread(sc);
-							LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
-							httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
-							httpHandlerThreadPool.execute(httpHandlerThread);
+						} catch (Throwable e) {
+							LogUtil.error("", e);
 						}
 					}
 				}

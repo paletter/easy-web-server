@@ -1,8 +1,5 @@
 package com.paletter.easy.web.server.sample.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import com.paletter.easy.web.server.annotation.WebMapping;
 import com.paletter.easy.web.server.sample.entity.User;
 
