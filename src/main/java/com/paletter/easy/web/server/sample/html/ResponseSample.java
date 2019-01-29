@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.net.Socket;
 import java.net.URL;
 
-import com.paletter.iotool.IOReadTool;
-import com.paletter.iotool.IOWriterTool;
+import com.paletter.tool.IOReadTool;
+import com.paletter.tool.IOWriterTool;
 
 public class ResponseSample {
 

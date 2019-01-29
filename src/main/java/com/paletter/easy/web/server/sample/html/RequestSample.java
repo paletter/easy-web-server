@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.paletter.easy.web.server.utils.LogUtil;
-import com.paletter.iotool.IOReadTool;
+import com.paletter.tool.IOReadTool;
 
 public class RequestSample {
 

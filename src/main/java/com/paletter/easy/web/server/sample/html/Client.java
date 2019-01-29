@@ -2,7 +2,7 @@ package com.paletter.easy.web.server.sample.html;
 
 import java.net.Socket;
 
-import com.paletter.iotool.IOWriterTool;
+import com.paletter.tool.IOWriterTool;
 
 public class Client {
 

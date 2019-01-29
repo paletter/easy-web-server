@@ -3,7 +3,7 @@ package com.paletter.easy.web.server.http.response.writer;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.paletter.iotool.IOWriterTool;
+import com.paletter.tool.IOWriterTool;
 
 public class ResponseOutputBIO extends ResponseOutput {
 

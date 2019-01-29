@@ -4,7 +4,7 @@ import java.net.Socket;
 
 import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.easy.web.server.utils.StringUtils;
-import com.paletter.iotool.IOReadTool;
+import com.paletter.tool.IOReadTool;
 
 public class RequestBIO extends Request {
 	
