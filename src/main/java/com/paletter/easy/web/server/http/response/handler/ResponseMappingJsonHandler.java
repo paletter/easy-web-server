@@ -12,6 +12,7 @@ import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 import com.paletter.easy.web.server.support.WebMapHelper;
 import com.paletter.easy.web.server.support.WebMapper;
+import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.easy.web.server.utils.StringUtils;
 
 public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
@@ -23,6 +24,8 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 	@Override
 	public void doResponse() throws Exception {
 		URI uri = request.getURI();
+		if (uri == null) return;
+		
 		String mappingPath = uri.getPath().split("\\.")[0];
 		WebMapper webMapper = WebMapHelper.getMapper(mappingPath);
 		
@@ -38,7 +41,7 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 				Object result = webMapper.invoke(methodParamStrValues);
 				
 				String respStr = convertToJSONResult(result);
-				
+			
 				printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON);
 				
 				printer.print(respStr);

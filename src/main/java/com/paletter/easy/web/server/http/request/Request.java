@@ -22,6 +22,11 @@ public abstract class Request {
 
 		try {
 			
+			if (StringUtils.isEmpty(reqContent)) {
+				isParseSucc = false;
+				return;
+			}
+			
 			String[] headerArr = reqContent.split("\r\n");
 			
 			headerMap.put(AppConstants.RequestHeader.HEADER_METHOD, headerArr[0].split(" ")[0]);
@@ -78,7 +83,7 @@ public abstract class Request {
 		
 		// URI params
 		URI uri = getURI();
-		if (StringUtils.isNotEmpty(uri.getQuery())) {
+		if (uri != null && StringUtils.isNotEmpty(uri.getQuery())) {
 			String[] uriParams = uri.getQuery().split("&");
 			for(String param : uriParams) {
 				requestParam.addGetMethodParam(param.split("=")[0], param.split("=")[1]);
@@ -117,6 +122,11 @@ public abstract class Request {
 	
 	public URI getURI() {
 		String reqUri = getHeader(AppConstants.RequestHeader.HEADER_URI);
+		if (StringUtils.isEmpty(reqUri)) {
+			LogUtil.error("Request parse, req uri empty");
+			return null;
+		}
+		
 		URI uri = null;
 		try {
 			uri = new URI(reqUri);

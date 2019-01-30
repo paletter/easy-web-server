@@ -18,6 +18,8 @@ public class ResponseDownloadHandler extends ResponseAbstractHandler {
 	@Override
 	public void doResponse() throws Exception {
 		
+		if (request.getURI() == null) return;
+		
 		File file = new File(EWSConfig.downloadFilePath + request.getURI().getPath());
 
 		if(!file.exists()) {

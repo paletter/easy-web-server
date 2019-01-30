@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import com.paletter.easy.web.server.config.EWSConfig;
+
 public class ResponseOutputNIO extends ResponseOutput {
 
 	private SocketChannel socketChannel;
@@ -26,12 +28,16 @@ public class ResponseOutputNIO extends ResponseOutput {
 
 	@Override
 	public void write(String str) throws IOException {
-		socketChannel.write(ByteBuffer.wrap(str.getBytes()));
+		if (socketChannel.isConnected()) {
+			socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
+		}
 	}
 
 	@Override
 	public void write(byte[] b) throws IOException {
-		socketChannel.write(ByteBuffer.wrap(b));
+		if (socketChannel.isConnected()) {
+			socketChannel.write(ByteBuffer.wrap(b));
+		}
 	}
 
 	@Override

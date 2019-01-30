@@ -9,6 +9,7 @@ public class EWSConfig {
 //	public static String htmlPath = "static/";
 	public static String resourcesPath = "static/";
 	public static int logLevel = 2;
+	public static String responseEncode = "utf-8";
 	
 	/**
 	 * <pre>

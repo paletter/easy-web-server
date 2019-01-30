@@ -21,6 +21,8 @@ public class EWSRunner {
 			
 			int port = EWSConfig.port;
 			
+			LogUtil.setLevel(EWSConfig.logLevel);
+			
 			if (EWSConfig.isAnnotationMappingService) {
 				
 				if (StringUtils.isEmpty(EWSConfig.webMappingScannerPath)) {
@@ -57,8 +59,6 @@ public class EWSRunner {
 				accpetThread.start();
 			}
 
-			LogUtil.setLevel(EWSConfig.logLevel);
-			
 		} catch (Exception e) {
 			LogUtil.error("", e);
 		}

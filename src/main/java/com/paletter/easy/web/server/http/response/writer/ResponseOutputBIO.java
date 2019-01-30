@@ -3,6 +3,7 @@ package com.paletter.easy.web.server.http.response.writer;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.tool.IOWriterTool;
 
 public class ResponseOutputBIO extends ResponseOutput {
@@ -27,7 +28,7 @@ public class ResponseOutputBIO extends ResponseOutput {
 	
 	@Override
 	public void write(String str) throws IOException {
-		IOWriterTool.writeContent(socket.getOutputStream(), str);
+		IOWriterTool.writeContent(socket.getOutputStream(), str, EWSConfig.responseEncode);
 	}
 
 	@Override

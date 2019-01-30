@@ -58,6 +58,8 @@ public class Response {
 	}
 	
 	private boolean isResourceRequest() {
+		if (request.getURI() == null) return false;
+		
 		String uriPath = request.getURI().getPath();
 		return uriPath.split("\\.").length > 1;
 	}

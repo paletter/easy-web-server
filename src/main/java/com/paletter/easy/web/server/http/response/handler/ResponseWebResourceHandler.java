@@ -20,6 +20,8 @@ public class ResponseWebResourceHandler extends ResponseAbstractHandler {
 	@Override
 	public void doResponse() throws Exception {
 
+		if (request.getURI() == null) return;
+		
 		String path = request.getURI().getPath();
 		
 		String contentType = null;
