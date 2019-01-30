@@ -12,7 +12,6 @@ import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 import com.paletter.easy.web.server.support.WebMapHelper;
 import com.paletter.easy.web.server.support.WebMapper;
-import com.paletter.easy.web.server.utils.LogUtil;
 import com.paletter.easy.web.server.utils.StringUtils;
 
 public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
@@ -28,6 +27,11 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 		
 		String mappingPath = uri.getPath().split("\\.")[0];
 		WebMapper webMapper = WebMapHelper.getMapper(mappingPath);
+		
+		if (webMapper == null) {
+			printer.writeHeader(ResponseStatusEnum.NOT_FOUND, AppConstants.ContentType.TEXT_HTML);
+			printer.print("Path not found.");
+		}
 		
 		if (webMapper != null) {
 			

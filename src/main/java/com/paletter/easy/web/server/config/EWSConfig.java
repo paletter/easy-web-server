@@ -4,10 +4,9 @@ public class EWSConfig {
 
 	public static Integer port = 8080;
 	public static int httpHandlerThreadSize = 100;
-//	public static String webMappingScannerPath = "com.paletter.easy.web.server.test";
 	public static String webMappingScannerPath = "com.paletter.easy.web.server.test";
-//	public static String htmlPath = "static/";
 	public static String resourcesPath = "static/";
+	public static String basicWebPath = "";
 	public static int logLevel = 2;
 	public static String responseEncode = "utf-8";
 	

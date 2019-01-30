@@ -12,8 +12,10 @@ import java.util.jar.JarFile;
 
 import com.google.common.collect.Maps;
 import com.paletter.easy.web.server.annotation.WebMapping;
+import com.paletter.easy.web.server.config.EWSConfig;
 import com.paletter.easy.web.server.utils.FileUtils;
 import com.paletter.easy.web.server.utils.LogUtil;
+import com.paletter.easy.web.server.utils.StringUtils;
 
 public class WebMapHelper {
 
@@ -91,7 +93,28 @@ public class WebMapHelper {
 					WebMapping wm = m.getAnnotation(WebMapping.class);
 					
 					WebMapper webMapper = new WebMapper(instance, m, wm);
-					webMapperFactory.put(wm.value(), webMapper);
+					
+					String webPath = null;
+					if (EWSConfig.basicWebPath != null 
+						&& EWSConfig.basicWebPath.endsWith("/")
+						&& wm.value().startsWith("/")) {
+						
+						webPath = EWSConfig.basicWebPath + wm.value().substring(1);
+						
+					} else if (EWSConfig.basicWebPath != null
+							   && !EWSConfig.basicWebPath.endsWith("/")
+							   && !wm.value().startsWith("/")) {
+						
+						webPath = EWSConfig.basicWebPath + "/" + wm.value();
+						
+					} else {
+						
+						webPath = EWSConfig.basicWebPath + wm.value();
+					}
+					
+					if (!webPath.startsWith("/")) webPath = "/" + webPath;
+					
+					webMapperFactory.put(webPath, webMapper);
 				}
 			}
 		} catch (Exception e) {
