@@ -28,14 +28,14 @@ public class ResponseOutputNIO extends ResponseOutput {
 
 	@Override
 	public void write(String str) throws IOException {
-		if (socketChannel.isConnected()) {
+		if (socketChannel.isOpen()) {
 			socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
 		}
 	}
 
 	@Override
 	public void write(byte[] b) throws IOException {
-		if (socketChannel.isConnected()) {
+		if (socketChannel.isOpen()) {
 			socketChannel.write(ByteBuffer.wrap(b));
 		}
 	}
