@@ -28,7 +28,7 @@ public class NIOHttpHandlerThread extends Thread {
 				resp.response();
 			}
 			
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			LogUtil.error("NIOHttpHandlerThread error.", e);
 		}
 	}
