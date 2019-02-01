@@ -1,10 +1,12 @@
 package com.paletter.easy.web.server.http.response.writer;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 import com.paletter.easy.web.server.config.EWSConfig;
+import com.paletter.easy.web.server.utils.LogUtil;
 
 public class ResponseOutputNIO extends ResponseOutput {
 
@@ -27,16 +29,26 @@ public class ResponseOutputNIO extends ResponseOutput {
 	}
 
 	@Override
-	public void write(String str) throws IOException {
+	public void write(String str) {
 		if (socketChannel.isOpen()) {
-			socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
+			try {
+				socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
+			} catch (UnsupportedEncodingException e) {
+				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
+			} catch (IOException e) {
+				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
+			}
 		}
 	}
 
 	@Override
-	public void write(byte[] b) throws IOException {
+	public void write(byte[] b) {
 		if (socketChannel.isOpen()) {
-			socketChannel.write(ByteBuffer.wrap(b));
+			try {
+				socketChannel.write(ByteBuffer.wrap(b));
+			} catch (IOException e) {
+				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
+			}
 		}
 	}
 
