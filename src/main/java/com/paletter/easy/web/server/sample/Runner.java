@@ -12,7 +12,7 @@ public class Runner {
 		
 		EWSConfig.port = 8080;
 		EWSConfig.nioMode();
-		EWSConfig.resourcesPath = "html/";
+		EWSConfig.resourcesPath = "static/";
 		EWSConfig.httpHandlerThreadSize = 1024;
 		EWSConfig.annotationMappingMode("com.paletter.easy.web.server.sample");
 		EWSConfig.logLevel = 1;

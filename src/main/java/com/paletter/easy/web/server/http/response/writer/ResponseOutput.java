@@ -29,6 +29,17 @@ public abstract class ResponseOutput {
 		println("");
 	}
 	
+	public void writeHeader(ResponseStatusEnum status, String contentType, String t) throws IOException {
+		println("HTTP/1.1 " + status.getStatus() + " " + status.getMsg() + "");
+		
+		if (StringUtils.isNotEmpty(contentType))
+			println("Content-Type: " + contentType);
+		
+		println("Access-Control-Allow-Origin: " + t);
+		
+		println("");
+	}
+	
 	public void writeHeaderStatus(ResponseStatusEnum status) throws IOException {
 		println("HTTP/1.1 " + status.getStatus() + " " + status.getMsg() + "");
 	}

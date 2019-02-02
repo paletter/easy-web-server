@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery.js"></script>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+$.ajax({
+	url: "getName",
+	method: "GET",
+	data: {"id": "1"},
+	success: function(data) {
+		console.log(1);
+	}
+});
+
+$.ajax({
+	url: "getName",
+	method: "GET",
+	data: {"id": "2"},
+	success: function(data) {
+		console.log(2);
+	}
+});
+</script>
+</html>
