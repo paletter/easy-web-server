@@ -53,15 +53,8 @@ public class NIOAcceptThread extends Thread {
 								acceptCnt ++;
 								
 								channel.configureBlocking(false);
-								channel.register(selector, SelectionKey.OP_READ);
-							}
-							
-							if(key.isReadable()) {
 								
-								// Readable
-								
-								SocketChannel sc = (SocketChannel) key.channel();
-								NIOHttpHandlerThread httpHandlerThread = new NIOHttpHandlerThread(sc);
+								NIOHttpHandlerThread httpHandlerThread = new NIOHttpHandlerThread(channel);
 								LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
 								httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
 								httpHandlerThreadPool.execute(httpHandlerThread);
