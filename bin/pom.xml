@@ -12,8 +12,8 @@
 	      	<version>20140107</version>
 	    </dependency>
   		<dependency>
-	      	<groupId>com.paletter.support</groupId>
-	      	<artifactId>iotool</artifactId>
+	      	<groupId>com.paletter</groupId>
+	      	<artifactId>tool</artifactId>
 	      	<version>0.0.1-SNAPSHOT</version>
 	    </dependency>
   	</dependencies>
