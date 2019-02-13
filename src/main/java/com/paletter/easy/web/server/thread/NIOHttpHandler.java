@@ -8,14 +8,15 @@ import com.paletter.easy.web.server.http.response.Response;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
 import com.paletter.easy.web.server.utils.LogUtil;
 
-public class NIOHttpHandlerThread extends Thread {
+public class NIOHttpHandler implements Runnable {
 
 	private SocketChannel socketChannel;
 
-	public NIOHttpHandlerThread(SocketChannel channel) {
+	public NIOHttpHandler(SocketChannel channel) {
 		this.socketChannel = channel;
 	}
 	
+	@Override
 	public void run() {
 		
 		try {
