@@ -1,6 +1,7 @@
 package com.paletter.easy.web.server.http.response.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.paletter.easy.web.server.http.request.Request;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutput;
 
@@ -23,7 +24,7 @@ public abstract class ResponseAbstractHandler {
 		if (result.getClass().equals(String.class)) {
 			resultStr = result.toString();
 		} else {
-			resultStr = JSONObject.toJSONString(result);
+			resultStr = JSONObject.toJSONString(result, SerializerFeature.DisableCircularReferenceDetect);
 		}
 		
 		return resultStr;
