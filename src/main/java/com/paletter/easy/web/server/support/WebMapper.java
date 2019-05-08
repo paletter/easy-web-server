@@ -20,14 +20,14 @@ public class WebMapper {
 
 	public Object invoke(Object... params) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (params.length != method.getParameterCount()) 
-			throw new IllegalAccessError("params.lenth not equal method's parameter count");
+			throw new IllegalAccessError("params.length not equal method's parameter count");
 		
 		return method.invoke(instance, params);
 	}
 	
 	public Object invoke(String... params) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (params.length != method.getParameterCount()) 
-			throw new IllegalAccessError("params.lenth not equal method's parameter count");
+			throw new IllegalAccessError("params: " + params + " length not equal method's parameter count");
 		
 		Object[] objs = new Object[method.getParameterCount()];
 		for (int i = 0; i < method.getParameterCount(); i ++) {

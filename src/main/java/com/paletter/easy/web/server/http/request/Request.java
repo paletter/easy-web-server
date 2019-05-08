@@ -86,7 +86,9 @@ public abstract class Request {
 		if (uri != null && StringUtils.isNotEmpty(uri.getQuery())) {
 			String[] uriParams = uri.getQuery().split("&");
 			for(String param : uriParams) {
-				requestParam.addGetMethodParam(param.split("=")[0], param.split("=")[1]);
+				String key = param.split("=")[0];
+				String value = param.split("=").length > 1 ? param.split("=")[1] : "";
+				requestParam.addGetMethodParam(key, value);
 			}
 		}
 		
@@ -100,7 +102,9 @@ public abstract class Request {
 				// form
 				String[] uriParams = body.split("&");
 				for(String param : uriParams) {
-					requestParam.addPostMethodParam(param.split("=")[0], param.split("=")[1]);
+					String key = param.split("=")[0];
+					String value = param.split("=").length > 1 ? param.split("=")[1] : "";
+					requestParam.addPostMethodParam(key, value);
 				}
 			}
 		}
