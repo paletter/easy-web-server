@@ -46,6 +46,8 @@ public class WebMapper {
 				objs[i] = Double.valueOf(params[i]);
 			} else if (method.getParameterTypes()[i].equals(BigDecimal.class)) {
 				objs[i] = new BigDecimal(params[i]);
+			} else if (method.getParameterTypes()[i].equals(Boolean.class)) {
+				objs[i] = Boolean.valueOf(params[i]);
 			}
 		}
 		
