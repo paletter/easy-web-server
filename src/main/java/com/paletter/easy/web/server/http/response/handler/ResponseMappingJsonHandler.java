@@ -46,7 +46,7 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 				
 				String respStr = convertToJSONResult(result);
 			
-				printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON);
+				printer.writeHeader(ResponseStatusEnum.OK, parseContentType(result));
 				
 				printer.print(respStr);
 				
@@ -66,7 +66,7 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 						
 						String respStr = convertToJSONResult(result);
 						
-						printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON, respStr.length());
+						printer.writeHeader(ResponseStatusEnum.OK, parseContentType(result), respStr.length());
 						
 						printer.print(respStr);
 						
@@ -80,7 +80,7 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 							Object result = webMapper.invoke();
 							String respStr = convertToJSONResult(result);
 							
-							printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON, respStr.length());
+							printer.writeHeader(ResponseStatusEnum.OK, parseContentType(result), respStr.length());
 							printer.print(respStr);
 						}
 						
@@ -92,7 +92,7 @@ public class ResponseMappingJsonHandler extends ResponseAbstractHandler {
 							
 							String respStr = convertToJSONResult(result);
 							
-							printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.APPLICATION_JSON, respStr.length());
+							printer.writeHeader(ResponseStatusEnum.OK, parseContentType(result), respStr.length());
 							printer.print(respStr);
 						}
 					}
