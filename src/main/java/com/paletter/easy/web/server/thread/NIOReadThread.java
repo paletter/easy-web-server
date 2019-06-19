@@ -5,6 +5,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+import com.paletter.easy.web.server.support.NIOHttpHandler;
 import com.paletter.easy.web.server.support.SelectorHandler;
 
 public class NIOReadThread implements Runnable {

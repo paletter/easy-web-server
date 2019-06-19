@@ -29,6 +29,11 @@ public class TestController {
 	public boolean getName5() {
 		return false;
 	}
+
+	@WebMapping("/getName6")
+	public int getName6(Integer id) {
+		return id;
+	}
 	
 	@WebMapping("/getJson")
 	public User getName() {

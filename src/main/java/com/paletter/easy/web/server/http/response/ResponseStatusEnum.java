@@ -4,7 +4,8 @@ public enum ResponseStatusEnum {
 
 	OK(200, "OK"),
 	BAD_REQUEST(400, "Bad Request"),
-	NOT_FOUND(404, "Not Found");
+	NOT_FOUND(404, "Not Found"),
+	SERVER_ERROR(500, "Server Error");
 	
 	private ResponseStatusEnum(Integer status, String msg) {
 		this.status = status;
