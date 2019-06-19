@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.paletter.easy.web.server.support.SelectorHandler;
 import com.paletter.easy.web.server.utils.LogUtil;
 
 public class NIOAcceptThread extends Thread {
@@ -23,52 +24,37 @@ public class NIOAcceptThread extends Thread {
 
 	public void run() {
 		
-		try {
+		new SelectorHandler(selector, new SelectorHandler.Handler() {
 			
-			int acceptCnt = 0;
-			while(true) {
+			@Override
+			public boolean doHandle(SelectionKey key, Iterator<SelectionKey> ite) {
 
-				while(selector.select() > 0) {
+				try {
 					
-					Iterator<SelectionKey> ite = selector.selectedKeys().iterator();
-					
-					while(ite.hasNext()) {
-						
-						try {
-								
-							SelectionKey key = ite.next();
-							
-							if (!key.isValid()) continue;
-							
-							if (key.isAcceptable()) {
+					if (key.isAcceptable()) {
 	
-								// Accept
-								
-								ite.remove();
-								
-								ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-								SocketChannel channel = ssc.accept();
-								if(channel == null) continue;
-								LogUtil.printDebug("Accpet: " + channel);
-								acceptCnt ++;
-								
-								channel.configureBlocking(false);
-								
-								NIOHttpHandler httpHandlerThread = new NIOHttpHandler(channel);
-								LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
-//								httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
-								httpHandlerThreadPool.execute(httpHandlerThread);
-							}
-							
-						} catch (Throwable e) {
-							LogUtil.error("", e);
-						}
+						// Accept
+						
+						ite.remove();
+						
+						ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+						SocketChannel channel = ssc.accept();
+						if(channel == null) return false;
+						
+						channel.configureBlocking(false);
+						Selector readSelector = Selector.open();
+						channel.register(readSelector, SelectionKey.OP_READ);
+						
+						NIOReadThread readThread = new NIOReadThread(readSelector);
+						httpHandlerThreadPool.execute(readThread);
 					}
+					
+				} catch (Throwable e) {
+					LogUtil.error("", e);
 				}
+				
+				return false;
 			}
-			
-		} catch (Exception e) {
-			LogUtil.error("", e);
-		}
+		});
 	}
 }

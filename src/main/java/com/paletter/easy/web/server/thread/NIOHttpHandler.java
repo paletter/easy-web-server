@@ -8,7 +8,7 @@ import com.paletter.easy.web.server.http.response.Response;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
 import com.paletter.easy.web.server.utils.LogUtil;
 
-public class NIOHttpHandler implements Runnable {
+public class NIOHttpHandler {
 
 	private SocketChannel socketChannel;
 
@@ -16,8 +16,7 @@ public class NIOHttpHandler implements Runnable {
 		this.socketChannel = channel;
 	}
 	
-	@Override
-	public void run() {
+	public void doHandle() {
 		
 		try {
 			
@@ -30,7 +29,7 @@ public class NIOHttpHandler implements Runnable {
 			}
 			
 		} catch (Throwable e) {
-			LogUtil.error("NIOHttpHandlerThread error.", e);
+			LogUtil.error("NIOHttpHandler error.", e);
 		}
 	}
 }
