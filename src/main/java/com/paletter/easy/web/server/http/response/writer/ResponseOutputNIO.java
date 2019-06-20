@@ -33,6 +33,7 @@ public class ResponseOutputNIO extends ResponseOutput {
 		if (socketChannel.isOpen()) {
 			try {
 				socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
+				System.out.println("#############write" +  socketChannel.hashCode() + "|" + str);
 			} catch (UnsupportedEncodingException e) {
 				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
 			} catch (IOException e) {
@@ -45,7 +46,11 @@ public class ResponseOutputNIO extends ResponseOutput {
 	public void write(byte[] b) {
 		if (socketChannel.isOpen()) {
 			try {
-				socketChannel.write(ByteBuffer.wrap(b));
+				ByteBuffer wb = ByteBuffer.allocateDirect(1024);
+				wb.put(b);
+				wb.flip();
+				socketChannel.write(wb);
+				System.out.println("#############write" +  socketChannel.hashCode() + "|" + new String(b));
 			} catch (IOException e) {
 				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
 			}
@@ -55,5 +60,6 @@ public class ResponseOutputNIO extends ResponseOutput {
 	@Override
 	public void close() throws IOException {
 		socketChannel.close();
+		System.out.println("#############close" +  socketChannel.hashCode());
 	}
 }

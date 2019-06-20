@@ -43,13 +43,21 @@ public class Response {
 				
 				responseWebResourceHandler.doResponse();
 				
+				printer.close();
+				
 			} else if(isServiceRequest()) {
 				
-				if (EWSConfig.isAnnotationMappingService) {
-					responseMappingJsonHandler.doResponse();
-				} else {
-					responseServiceMethodJsonHandler.doResponse();
-				}
+//				printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.TEXT_PLAIN);
+//				printer.print("x");
+//				printer.close();
+				
+				responseMappingJsonHandler.doResponse();
+				
+//				if (EWSConfig.isAnnotationMappingService) {
+//					responseMappingJsonHandler.doResponse();
+//				} else {
+//					responseServiceMethodJsonHandler.doResponse();
+//				}
 				
 			}
 		}

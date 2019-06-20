@@ -30,7 +30,7 @@ public class NIOHttpHandler implements Runnable {
 			}
 			
 		} catch (Throwable e) {
-			LogUtil.error("NIOHttpHandlerThread error.", e);
+			LogUtil.error("NIOHttpHandlerThread error." + socketChannel.hashCode(), e);
 		}
 	}
 }

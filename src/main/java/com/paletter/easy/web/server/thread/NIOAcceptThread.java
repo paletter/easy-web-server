@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.paletter.easy.web.server.constants.AppConstants;
+import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
+import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
 import com.paletter.easy.web.server.utils.LogUtil;
 
 public class NIOAcceptThread extends Thread {
@@ -53,10 +56,21 @@ public class NIOAcceptThread extends Thread {
 								acceptCnt ++;
 								
 								channel.configureBlocking(false);
+								channel.register(selector, SelectionKey.OP_READ);
+							}
+
+							if(key.isReadable()) {
 								
-								NIOHttpHandler httpHandlerThread = new NIOHttpHandler(channel);
-								LogUtil.printDebug("# HttpHandlerThread-" + (acceptCnt));
-//								httpHandlerThread.setName("HttpHandlerThread-" + acceptCnt);
+								// Readable
+								
+								SocketChannel sc = (SocketChannel) key.channel();
+								
+//								ResponseOutputNIO printer = new ResponseOutputNIO(sc);
+//								printer.writeHeader(ResponseStatusEnum.OK, AppConstants.ContentType.TEXT_PLAIN);
+//								printer.print("x");
+//								sc.close();
+								
+								NIOHttpHandler httpHandlerThread = new NIOHttpHandler(sc);
 								httpHandlerThreadPool.execute(httpHandlerThread);
 							}
 							

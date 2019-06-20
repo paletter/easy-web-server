@@ -17,12 +17,19 @@ public class RequestNIO extends Request {
 
 	public boolean parse() throws Exception {
 
-		if (channel == null || !channel.isConnected()) return false;
+		if (channel == null || !channel.isConnected() || !channel.isOpen()) return false;
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int bufferLenght = 1024;
 		ByteBuffer b = ByteBuffer.allocate(bufferLenght);
+		
+//		System.out.println("*******" + channel.isOpen() + "|" + channel.isConnected());
+//		System.out.println("*********Read" + channel.hashCode() + "|" + channel.getRemoteAddress());
+		
 		int ins = channel.read(b);
+		if (ins == 0) return false;
+		
+//		System.out.println("*********Read2" + channel.hashCode() + "|" + channel.getRemoteAddress() + "|" + ins);
 		if(ins == -1) {
 			isParseSucc = false;
 			return isParseSucc;
@@ -36,7 +43,7 @@ public class RequestNIO extends Request {
 		}
 		
 		String reqContent = baos.toString();
-		
+//		System.out.println("*********Read3" + channel.hashCode() + "|" + channel.getRemoteAddress() + "|" +reqContent);
 		LogUtil.printDebug("# Request Content: " + reqContent);
 		
 		parseHeader(reqContent);
