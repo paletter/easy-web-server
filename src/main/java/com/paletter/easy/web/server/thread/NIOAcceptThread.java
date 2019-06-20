@@ -42,11 +42,16 @@ public class NIOAcceptThread extends Thread {
 						if(channel == null) return false;
 						
 						channel.configureBlocking(false);
-						Selector readSelector = Selector.open();
-						channel.register(readSelector, SelectionKey.OP_READ);
+						channel.register(selector, SelectionKey.OP_READ);
+					}
+					
+					if(key.isReadable()) {
 						
-						NIOReadThread readThread = new NIOReadThread(readSelector);
-						httpHandlerThreadPool.execute(readThread);
+						// Readable
+						
+						SocketChannel sc = (SocketChannel) key.channel();
+						NIOHttpHandlerThread httpHandler = new NIOHttpHandlerThread(sc);
+						httpHandlerThreadPool.execute(httpHandler);
 					}
 					
 				} catch (Throwable e) {

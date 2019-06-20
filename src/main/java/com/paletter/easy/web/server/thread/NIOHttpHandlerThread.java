@@ -1,6 +1,5 @@
-package com.paletter.easy.web.server.support;
+package com.paletter.easy.web.server.thread;
 
-import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
 import com.paletter.easy.web.server.constants.AppConstants;
@@ -13,15 +12,16 @@ import com.paletter.easy.web.server.http.response.ResponseStatusEnum;
 import com.paletter.easy.web.server.http.response.writer.ResponseOutputNIO;
 import com.paletter.easy.web.server.utils.LogUtil;
 
-public class NIOHttpHandler {
+public class NIOHttpHandlerThread implements Runnable {
 
 	private SocketChannel socketChannel;
 
-	public NIOHttpHandler(SocketChannel channel) {
+	public NIOHttpHandlerThread(SocketChannel channel) {
 		this.socketChannel = channel;
 	}
 	
-	public void doHandle() {
+	@Override
+	public void run() {
 		
 		ResponseOutputNIO printer = new ResponseOutputNIO(socketChannel);
 		
@@ -47,12 +47,6 @@ public class NIOHttpHandler {
 			
 			LogUtil.error("NIOHttpHandler error.", e);
 			
-		} finally {
-			
-			try {
-				printer.close();
-			} catch (IOException e) {
-			}
 		}
 	}
 	
@@ -62,6 +56,7 @@ public class NIOHttpHandler {
 			
 			printer.writeHeader(status, contentType);
 			printer.print(msg);
+			printer.close();
 			
 		} catch (Throwable e) {
 			LogUtil.error("", e);
