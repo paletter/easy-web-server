@@ -24,10 +24,11 @@ public class NIOHttpHandlerThread implements Runnable {
 	public void run() {
 		
 		ResponseOutputNIO printer = new ResponseOutputNIO(socketChannel);
+		Request request = null;
 		
 		try {
 			
-			Request request = new RequestNIO(socketChannel);
+			request = new RequestNIO(socketChannel);
 			request.parse();
 			
 			if(request.isParseSucc()) {
