@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.paletter.easy.web.server.support.SelectorHandler;
 import com.paletter.easy.web.server.utils.LogUtil;
 
 public class NIOAcceptThread extends Thread {
@@ -22,56 +23,43 @@ public class NIOAcceptThread extends Thread {
 	}
 
 	public void run() {
-
-		try {
+		
+		new SelectorHandler(selector, new SelectorHandler.Handler() {
 			
-			while(true) {
+			@Override
+			public boolean doHandle(SelectionKey key, Iterator<SelectionKey> ite) {
 
-				while(selector.select() > 0) {
+				try {
 					
-					Iterator<SelectionKey> ite = selector.selectedKeys().iterator();
-					
-					while(ite.hasNext()) {
+					if (key.isAcceptable()) {
+	
+						// Accept
 						
-						try {
-								
-							SelectionKey key = ite.next();
-							
-							if (!key.isValid()) continue;
-
-							if (key.isAcceptable()) {
-			
-								// Accept
-								
-								ite.remove();
-								
-								ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-								SocketChannel channel = ssc.accept();
-								if(channel == null) continue;
-								
-								channel.configureBlocking(false);
-								channel.register(selector, SelectionKey.OP_READ);
-							}
-							
-							if(key.isReadable()) {
-								
-								// Readable
-								
-								SocketChannel sc = (SocketChannel) key.channel();
-								NIOHttpHandlerThread httpHandler = new NIOHttpHandlerThread(sc);
-								httpHandlerThreadPool.execute(httpHandler);
-							}
-							
-							
-						} catch (Throwable e) {
-							LogUtil.error("", e);
-						}
+						ite.remove();
+						
+						ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+						SocketChannel channel = ssc.accept();
+						if(channel == null) return false;
+						
+						channel.configureBlocking(false);
+						channel.register(selector, SelectionKey.OP_READ);
 					}
+					
+					if(key.isReadable()) {
+						
+						// Readable
+						
+						SocketChannel sc = (SocketChannel) key.channel();
+						NIOHttpHandlerThread httpHandler = new NIOHttpHandlerThread(sc);
+						httpHandlerThreadPool.execute(httpHandler);
+					}
+					
+				} catch (Throwable e) {
+					LogUtil.error("", e);
 				}
+				
+				return false;
 			}
-			
-		} catch (Exception e) {
-			LogUtil.error("", e);
-		}
+		});
 	}
 }
