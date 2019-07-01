@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.paletter.easy.web.server.utils.LogUtil;
+import com.paletter.tool.ThreadUtils;
 
 public class NIOAcceptThread extends Thread {
 
@@ -68,6 +69,8 @@ public class NIOAcceptThread extends Thread {
 						}
 					}
 				}
+				
+				ThreadUtils.sleep(10);
 			}
 			
 		} catch (Exception e) {
