@@ -13,7 +13,7 @@
 	    </dependency>
   		<dependency>
 	      	<groupId>com.paletter</groupId>
-	      	<artifactId>iotool</artifactId>
+	      	<artifactId>tool</artifactId>
 	      	<version>0.0.1-SNAPSHOT</version>
 	    </dependency>
   	</dependencies>
