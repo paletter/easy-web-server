@@ -1,5 +1,7 @@
 package com.paletter.easy.web.server.sample.html;
 
+import com.paletter.tool.IOWriterTool;
+
 import java.net.Socket;
 
 import com.paletter.tool.IOWriterTool;
