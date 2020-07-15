@@ -20,7 +20,12 @@ import com.paletter.easy.web.server.utils.StringUtils;
 public class WebMapHelper {
 
 	public static Map<String, WebMapper> webMapperFactory = Maps.newHashMap();
-	
+
+	public static void main(String[] args) {
+		String s = "\\1\\2\\3";
+		System.out.println(s.replace("\\", "0"));
+	}
+
 	public static void scanner(String path) {
 		
 		try {
@@ -44,8 +49,11 @@ public class WebMapHelper {
 						
 						List<File> fileList = FileUtils.findFiles(pkgPath);
 						for (File file : fileList) {
-							int subIndex = file.getPath().indexOf(rootPath.replace("/", "\\"));
-							String classPath = file.getPath().substring(subIndex).replace("\\", ".");
+
+							String filePath = file.getPath().replace("\\", "/");
+							int subIndex = filePath.indexOf(rootPath);
+
+							String classPath = filePath.substring(subIndex).replace("/", ".");
 							classPath = classPath.replace(".class", "");
 							
 							addWebMapper(classPath);
