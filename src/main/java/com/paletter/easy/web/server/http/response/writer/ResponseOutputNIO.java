@@ -34,9 +34,13 @@ public class ResponseOutputNIO extends ResponseOutput {
 			try {
 				socketChannel.write(ByteBuffer.wrap(str.getBytes(EWSConfig.responseEncode)));
 			} catch (UnsupportedEncodingException e) {
-				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
+				LogUtil.error("ResponseOutputNIO write error.", e);
 			} catch (IOException e) {
-				LogUtil.error("ResponseOutputNIO write error." + e.getMessage());
+				if ("Broken pipe".equals(e.getMessage())) {
+					LogUtil.print("ResponseOutputNIO write error.");
+				} else {
+					LogUtil.error("ResponseOutputNIO write error.", e);
+				}
 			}
 		}
 	}
